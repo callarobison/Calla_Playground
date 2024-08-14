@@ -1,6 +1,10 @@
-name: Prod Scanner Deploy and Cherwell Change Request 
+name: Add github label
 on:
   workflow_dispatch:
+  inputs:
+    PR_NUMBER:
+      description: 'Pull Request Number'
+      required: true   
 
 permissions:
   id-token: write
