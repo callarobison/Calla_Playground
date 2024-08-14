@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   process-json:
-    runs-on: onprem-linux
+    runs-on: ubuntu-latest
     steps:
     - name: Add Deployment Scheduled Label
       id: deployment-scheduled
