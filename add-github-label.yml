@@ -1,4 +1,4 @@
-name: Prod Scanner Deploy and Cherwell Change Request 
+name: Add github label
 on:
   workflow_dispatch:
   inputs:
