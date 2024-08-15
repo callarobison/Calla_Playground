@@ -1,10 +1,8 @@
 name: Add github label
 on:
-  workflow_dispatch:
-    inputs:
-      PR_NUMBER:
-        description: 'Pull Request Number'
-        required: true   
+  pull_request:
+    types:
+      - edited
 
 permissions:
   id-token: write
