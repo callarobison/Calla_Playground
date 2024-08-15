@@ -20,13 +20,12 @@ jobs:
     - name: Create Prod Tanium FluentBit Deployment
       id: tanium-deployment
       run: |
-
-          echo "::set-output name=success::true"
+          echo "SUCCESS=true" >> $GITHUB_ENV
        
 
     - name: Add Deployment Scheduled Label
       id: deployment-scheduled
-      if: ${{ steps.tanium-deployment.outputs.success == 'true' }}
+      if: env.SUCCESS == 'true'
       uses: actions/github-script@v6
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
