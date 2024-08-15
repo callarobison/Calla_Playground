@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   pull_request:
     types:
-      - edited
+      - opened
 
 permissions:
   id-token: write
@@ -14,6 +14,8 @@ jobs:
   process-json:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
     - name: Add Deployment Scheduled Label
       id: deployment-scheduled
       uses: actions/github-script@v6
