@@ -9,6 +9,7 @@ on:
 permissions:
   id-token: write
   contents: read
+  pull-requests: write
 
 jobs:
   process-json:
@@ -27,7 +28,7 @@ jobs:
           const { data: currentLabels } = await github.rest.issues.listLabelsOnIssue({
             owner,
             repo,
-            pull_number
+            issue_number
           });
           
           const labelExists = currentLabels.some(label => label.name === labelToAdd);
@@ -36,7 +37,7 @@ jobs:
             await github.rest.issues.addLabels({
               owner,
               repo,
-              pull_number,
+              issue_number,
               labels: [labelToAdd]
             });
             console.log(`Added label: ${labelToAdd}`);
