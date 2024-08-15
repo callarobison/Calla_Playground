@@ -32,7 +32,7 @@ jobs:
         script: |
           const { owner, repo } = context.repo;
           const issue_number = context.issue.number;
-          const labels = ['DEPLOYMENT - SCHEDULED'];
+          const labels = ['DEPLOYMENT SCHEDULED'];
           await github.rest.issues.addLabels({
             owner,
             repo,
