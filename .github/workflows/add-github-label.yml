@@ -1,45 +1,27 @@
 name: Add github label
-on:
-  workflow_dispatch:
-    inputs:
-      PR_NUMBER:
-        description: 'Pull Request Number'
-        required: true   
+on: 
+  pull_request:
+    types:
+      - edited
 
-permissions:
-  id-token: write
-  contents: read
-
+  pull-requests: write
+  
 jobs:
   process-json:
-    runs-on: onprem-linux
+    runs-on: ubuntu-latest
     steps:
-      - name: Add Deployment Scheduled Label
-        id: deployment-scheduled
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { owner, repo } = context.repo;
-            const issue_number = context.issue.number;
-            const labelToAdd = 'DEPLOYMENT-SCHEDULED';
-            
-            const { data: currentLabels } = await github.rest.issues.listLabelsOnIssue({
-              owner,
-              repo,
-              issue_number
-            });
-            
-            const labelExists = currentLabels.some(label => label.name === labelToAdd);
-            
-            if (!labelExists) {
-              await github.rest.issues.addLabels({
-                owner,
-                repo,
-                issue_number,
-                labels: [labelToAdd]
-              });
-              console.log(`Added label: ${labelToAdd}`);
-            } else {
-              console.log(`Label ${labelToAdd} already exists. No action taken.`);
-            }
+    - name: Add Deployment Scheduled Label
+      id: deployment-scheduled
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const { owner, repo } = context.repo;
+          const issue_number = context.issue.number;
+          const labels = ['DEPLOYMENT-SCHEDULED'];
+          await github.rest.issues.addLabels({
+            owner,
+            repo,
+            issue_number,
+            labels
+
