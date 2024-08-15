@@ -1,5 +1,6 @@
 name: Add github label
 on:
+  workflow_dispatch:
   pull_request:
     types:
       - edited
