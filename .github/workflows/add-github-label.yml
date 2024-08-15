@@ -16,15 +16,24 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+
+    - name: Create Prod Tanium FluentBit Deployment
+      id: tanium-deployment
+      run: |
+
+          echo "::set-output name=success::true"
+       
+
     - name: Add Deployment Scheduled Label
       id: deployment-scheduled
+      if: ${{ steps.tanium-deployment.outputs.success == 'true' }}
       uses: actions/github-script@v6
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           const { owner, repo } = context.repo;
           const issue_number = context.issue.number;
-          const labels = ['DEPLOYMENT-SCHEDULED'];
+          const labels = ['DEPLOYMENT - SCHEDULED'];
           await github.rest.issues.addLabels({
             owner,
             repo,
