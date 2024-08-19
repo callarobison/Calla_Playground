@@ -1,0 +1,42 @@
+name: send alert on ltu review
+on:
+  pull_request:
+      types: [labeled]  
+permissions:
+      id-token: write
+      contents: read
+jobs:
+    send_alert_ltu_review:
+        runs-on: onprem-linux
+        steps:
+          - name: Clone repository
+            uses: actions/checkout@v4
+            with:
+                fetch-depth: 0
+
+          - name: Checkout PR head
+            run: git checkout "${{ github.event.pull_request.head.ref }}"
+
+          - name: Check for Deployment Scheduled Label
+            uses: actions/github-script@v6
+            with:
+                github-token: ${{ secrets.GITHUB_TOKEN }}
+                script: |
+                    const { owner, repo } = context.repo;
+                    const issue_number = context.issue.number;
+                    const labelsEndpoint = `/repos/${owner}/${repo}/pulls/${issue_number}/labels`;
+                    const response = await github.rest.repos.getCombinedStatusCheckRollup.endpoint(labelsEndpoint);
+                    const labels = response.data.map(label => label.name);
+                    core.setOutput("labels", labels.join(", "));
+
+                    // Check if labels contain "Deployment scheduled"
+                    const deploymentScheduledFound = labels.some(label => label === "Deployment scheduled");
+                    
+                    // If "Deployment scheduled" is found, set an output to indicate the job should not proceed
+                    if (deploymentScheduledFound) {
+                    console.log(context)
+                    return core.setFailed('Job exited due to "Deployment scheduled" label.');
+
+          - name: didn't skip
+            run: |
+                echo "didn't exit job"
