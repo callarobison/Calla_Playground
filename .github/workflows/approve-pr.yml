@@ -2,7 +2,7 @@ name: Automatic Pull Request Approval and Merge
 
 on:
     pull_request:
-        types: [opened, synchronize, labeled]
+        types: [opened, labeled]
 
 jobs:
     approve_pr:
