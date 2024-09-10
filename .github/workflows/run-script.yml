@@ -1,0 +1,52 @@
+name: Isolating Archer Data
+on:
+  schedule:
+      - cron: '1 * * * *'
+  workflow_dispatch:
+  
+permissions:
+      id-token: write
+      contents: read
+
+jobs:
+  get-archer-data:
+    permissions: write-all
+    runs-on: onprem-linux
+    env:
+      BRANCH_TITLE: "Isolate-Archer-Data/update#${{github.run_number}}"
+      PULL_REQUEST_TITLE: "chore: isolate archer data refresh request#${{github.run_number}}"
+    steps:
+        - name: checkout code
+          uses: actions/checkout@v4
+          with:
+            ref: main
+        
+        - name: Set up Python 3.11
+          uses: actions/setup-python@v4
+          with:
+            python-version: '3.11'
+        
+        - name: Install dependencies
+          run: |
+            python3.11 -m pip install --upgrade pip \
+            && python3.11 -m pip install pipenv \
+            && pipenv install --system \
+            && python3.11 -m pip freeze
+        
+        - name: Run Python Scrips
+          run: |
+                pipenv install 
+                pipenv install --dev
+                pipenv run python3 scripts/hello_world.py
+
+
+
+        - name: Create Pull Request
+          uses: peter-evans/create-pull-request@v6
+          with:
+            branch: ${{env.BRANCH_TITLE}}
+            labels: ArcherDataUpdate
+            base: main
+            title: ${{env.PULL_REQUEST_TITLE}}
+            commit-message: |
+              Testing automated approve review
