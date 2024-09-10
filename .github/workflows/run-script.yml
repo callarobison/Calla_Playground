@@ -11,7 +11,7 @@ permissions:
 jobs:
   get-archer-data:
     permissions: write-all
-    runs-on: onprem-linux
+    runs-on: ubuntu-latest
     env:
       BRANCH_TITLE: "Isolate-Archer-Data/update#${{github.run_number}}"
       PULL_REQUEST_TITLE: "chore: isolate archer data refresh request#${{github.run_number}}"
