@@ -1,0 +1,19 @@
+name: Automatic Pull Request Approval and Merge
+
+on:
+    pull_request:
+        types: [opened, synchronize, labeled]
+
+jobs:
+    approve_pr:
+        runs-on: ubuntu-latest
+        if: ${{github.event.label.name == 'ArcherDataUpdate'}}
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v3
+
+            - name: Approve Pull Request
+              uses: hmarr/auto-approve-action@v4
+              with:
+                github-token: ${{secrets.GITHUB_TOKEN}}
+                review-message: "Automatically approved by Github Actions"
