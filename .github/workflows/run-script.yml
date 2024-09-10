@@ -29,17 +29,12 @@ jobs:
         - name: Install dependencies
           run: |
             python3.11 -m pip install --upgrade pip \
-            && python3.11 -m pip install pipenv \
-            && pipenv install --system \
-            && python3.11 -m pip freeze
+            && python3.11 -m pip install pipenv 
         
         - name: Run Python Scrips
           run: |
                 pipenv install 
-                pipenv install --dev
                 pipenv run python3 scripts/hello_world.py
-
-
 
         - name: Create Pull Request
           uses: peter-evans/create-pull-request@v6
