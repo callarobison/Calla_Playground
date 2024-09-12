@@ -2,7 +2,7 @@ name: Automatic Pull Request Approval and Merge
 
 on:
     pull_request:
-        types: [opened, labeled]
+        types: [opened, synchronize]
 
 permissions:
   id-token: write

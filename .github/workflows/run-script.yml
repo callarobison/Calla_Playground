@@ -1,7 +1,7 @@
 name: Isolating Archer Data
 on:
-  schedule:
-      - cron: '1 * * * *'
+  # schedule:
+  #     - cron: '*/5 * * * *'
   workflow_dispatch:
   
 permissions:
@@ -11,7 +11,7 @@ permissions:
 jobs:
   get-archer-data:
     permissions: write-all
-    runs-on: onprem-linux
+    runs-on: ubuntu-latest
     env:
       BRANCH_TITLE: "Isolate-Archer-Data/update#${{github.run_number}}"
       PULL_REQUEST_TITLE: "chore: isolate archer data refresh request#${{github.run_number}}"
@@ -28,7 +28,7 @@ jobs:
         
         - name: Run Python Script
           run: |
-                python3 scripts/hello_world.py
+                python3 hello_world.py
 
         - name: Create Pull Request
           uses: peter-evans/create-pull-request@v6
