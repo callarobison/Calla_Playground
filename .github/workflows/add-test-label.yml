@@ -1,0 +1,42 @@
+name: Label PR on request
+
+on:
+  workflow_dispatch:
+permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+
+
+jobs:
+  add-label-pr-request:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Add label to pull request
+          uses: actions/github-script@v7
+          with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            script: |
+                const { owner, repo } = context.repo;
+                const issue_number = context.issue.number;
+                const labelToAdd = 'test-label';
+                
+                const { data: currentLabels } = await github.rest.issues.listLabelsOnIssue({
+                owner,
+                repo,
+                issue_number
+                });
+                
+                const labelExists = currentLabels.some(label => label.name === labelToAdd);
+                
+                if (!labelExists) {
+                await github.rest.issues.addLabels({
+                    owner,
+                    repo,
+                    issue_number,
+                    labels: [labelToAdd]
+                });
+                console.log(`Added label: ${labelToAdd}`);
+                } else {
+                console.log(`Label ${labelToAdd} already exists. No action taken.`);
+                }
