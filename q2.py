@@ -12,7 +12,7 @@
 # My Solution
 
 
-n= int(input("Give me a number"))
+n= int(input("Give me a number "))
 fact = n
 
 for x in range (1, n-1):
@@ -25,7 +25,7 @@ def fact(x):
         return 1
     return x * fact(x - 1)
 
-x=int(raw_input())
+x=int(input())
 print(fact(x))
 
 
