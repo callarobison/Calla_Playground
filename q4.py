@@ -13,4 +13,23 @@
 # In case of input data being supplied to the question, it should be assumed to be a console input.
 # tuple() method can convert list to tuple
 
-print(dir(tuple))
+
+print("My Solution")
+input_list = input('Enter numbers separated by space\n')
+list = input_list.split()
+print(list)
+
+tuplet = tuple(list)
+print(tuplet)
+
+# Difference between a list and a tuple:
+#   - List is ordered and changeable; a tuple is ordered and unchangeable
+#   - List has []; tuple has ()
+#   - In a dictionary, we CANNOT use lists as key; In a dicitonary, we can create keys using tuples
+
+print("Their Solution")
+values=input()
+l=values.split(",")
+t=tuple(l)
+print(l)
+print(t)
